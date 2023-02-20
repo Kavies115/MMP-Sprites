@@ -1,6 +1,9 @@
 import customtkinter as tk
 from customtkinter import filedialog
 
+from sprite.sprite import Sprite
+
+
 class ExportPage(tk.CTkFrame):
 
     path = ""
@@ -37,6 +40,9 @@ class ExportPage(tk.CTkFrame):
 
     def export_sprite(self):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
+
+        # Need to change sprite here to be the global sprite
+        sprite = Sprite()
 
 
 
