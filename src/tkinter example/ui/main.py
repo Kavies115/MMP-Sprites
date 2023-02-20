@@ -1,4 +1,4 @@
-from ui.ExportScreen.screenOne import ExportPage
+from ui.ExportScreen.exportScreen import ExportPage
 from screenTwo import PageTwo
 
 import customtkinter as tk  # python 3
