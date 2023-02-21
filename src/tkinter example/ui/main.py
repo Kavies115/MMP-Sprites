@@ -1,9 +1,11 @@
+from sprite.sprite import Sprite
 from ui.ExportScreen.exportScreen import ExportPage
 from screenTwo import PageTwo
 
 import customtkinter as tk  # python 3
 from tkinter import font as tkfont  # python 3
 
+main_sprite = Sprite()
 
 class SampleApp(tk.CTk):
 

@@ -2,6 +2,7 @@ import json
 from asyncio.windows_events import NULL
 
 import cv2
+from PIL.Image import Image
 
 
 class Sprite:
@@ -62,5 +63,10 @@ class Sprite:
         json_object = json.dumps(dictionary, indent=4)
 
         # Writing to sample.json
-        with open("sample.json", "w") as outfile:
+        with open("sprite.json", "w") as outfile:
             outfile.write(json_object)
+
+    def _save_images(self, path):
+
+        for i in self.list_costumes:
+            cv2.imwrite(path+"/"+i.assetId, i.image)

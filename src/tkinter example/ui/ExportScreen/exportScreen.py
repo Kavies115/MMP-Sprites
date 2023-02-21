@@ -1,6 +1,7 @@
 import customtkinter as tk
 from customtkinter import filedialog
 
+from main import main_sprite
 from sprite.sprite import Sprite
 
 
@@ -32,17 +33,15 @@ class ExportPage(tk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
-        button_back = tk.CTkButton(master=frame_for_export, text="Export", font=("Cooper Black", 46) ,command=self.export_sprite)
+        button_back = tk.CTkButton(master=frame_for_export, text="Export", font=("Cooper Black", 46) ,command=self._export_sprite)
         button_back.pack(padx=8, pady= 8, side=tk.RIGHT, anchor="e", fill=tk.BOTH)
 
         button_back = tk.CTkButton(master=frame_for_export, text="Back", font=("Cooper Black", 46))
         button_back.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
 
-    def export_sprite(self):
+    def _export_sprite(self):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
-
-        # Need to change sprite here to be the global sprite
-        sprite = Sprite()
+        main_sprite.export(path)
 
 
-
+    def _
