@@ -1,4 +1,8 @@
+import glob
 import json
+import os
+import shutil
+import zipfile
 from asyncio.windows_events import NULL
 
 import cv2
@@ -24,9 +28,12 @@ class Sprite:
             cv2.waitKey(0)
 
     def export(self, path):
-        path = path
 
         costumes = []
+
+        os.mkdir(path + "/Sprite")
+
+        # path = path + "/Sprite"
 
         for i in self.list_costumes:
 
@@ -63,10 +70,19 @@ class Sprite:
         json_object = json.dumps(dictionary, indent=4)
 
         # Writing to sample.json
-        with open("sprite.json", "w") as outfile:
+        with open(path + "/Sprite" + "/sprite.json", "w") as outfile:
             outfile.write(json_object)
+
+        self._save_images(path + "/Sprite")
+
+        self._zip_directory(path)
 
     def _save_images(self, path):
 
         for i in self.list_costumes:
-            cv2.imwrite(path+"/"+i.assetId, i.image)
+            new_path = path + "/" + i.assetId + ".png"
+            cv2.imwrite(new_path, i.image)
+
+    def _zip_directory(self, path):
+        path = path
+

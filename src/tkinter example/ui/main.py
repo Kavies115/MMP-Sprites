@@ -1,11 +1,13 @@
+import cv2
+
+from global_sprite import main_sprite
+from sprite.costume import Costume
 from sprite.sprite import Sprite
 from ui.ExportScreen.exportScreen import ExportPage
 from screenTwo import PageTwo
 
 import customtkinter as tk  # python 3
 from tkinter import font as tkfont  # python 3
-
-main_sprite = Sprite()
 
 class SampleApp(tk.CTk):
 
@@ -34,6 +36,7 @@ class SampleApp(tk.CTk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartPage")
+
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
