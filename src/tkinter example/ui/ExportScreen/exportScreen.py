@@ -5,7 +5,8 @@ from global_sprite import main_sprite
 from sprite.costume import Costume
 from tkinter import filedialog
 
-class ExportPage(tk.CTkFrame):
+
+class ExportScreen(tk.CTkFrame):
 
     def __init__(self, parent, controller):
         tk.CTkFrame.__init__(self, parent)
@@ -13,7 +14,6 @@ class ExportPage(tk.CTkFrame):
         self.export_page_content()
 
     def export_page_content(self):
-
         frame_for_picture_list = tk.CTkScrollableFrame(self, width=350)
         frame_for_picture_list.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=20, pady=20)
 
@@ -37,6 +37,11 @@ class ExportPage(tk.CTkFrame):
         button_back.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
 
         self._list_of_images(frame_for_picture_list)
+        self._costume_editor_frame(frame_for_filters)
+
+    def _costume_editor_frame(self, frame):
+        label = tk.CTkLabel(master=frame, text="Costumes", font=("Cooper Black", 40))
+        label.pack(side="top", padx=60, pady=12)
 
     def _export_sprite(self):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
@@ -55,6 +60,8 @@ class ExportPage(tk.CTkFrame):
         c3 = Costume(img3)
         c3.assetId = "walter3"
 
+        main_sprite.sprite_name = "walter"
+
         main_sprite.add_list_img(c1)
         main_sprite.add_list_img(c2)
         main_sprite.add_list_img(c3)
@@ -64,4 +71,3 @@ class ExportPage(tk.CTkFrame):
 
             button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="")
             button.pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
-

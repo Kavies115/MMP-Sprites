@@ -29,11 +29,14 @@ class Sprite:
 
     def export(self, path):
 
+        tempPath = path
+
         costumes = []
 
-        os.mkdir(path + "/Sprite")
+        os.mkdir(tempPath + "/Sprite")
 
         # path = path + "/Sprite"
+        index_in_list = 0
 
         for i in self.list_costumes:
 
@@ -41,17 +44,19 @@ class Sprite:
                 i.costume_name = self.sprite_name
 
             item = {
-                "name": i.costume_name,
-                "bitmapResolution": 1,
+                "name": i.costume_name + str(index_in_list),
+                "bitmapResolution": 2,
                 "dataFormat": "png",
-                "assetId": i.assetId,
-                "md5ext": i.assetId + ".png",
-                "rotationCenterX": 64,
-                "rotationCentery": 64,
+                "assetId": i.getAssetId(),
+                "md5ext": i.getAssetId() + ".png",
+                "rotationCenterX": i.image.shape[1] / 2,
+                "rotationCentery": i.image.shape[0] / 2,
 
             }
 
             costumes.append(item)
+
+            index_in_list = index_in_list + 1
 
         dictionary = {
             "isStage": False,
@@ -63,7 +68,15 @@ class Sprite:
             "comments": {},
             "currentCostume": 0,
             "costumes": costumes,
-            "sounds": []
+            "sounds": [],
+            "volume": 100,
+            "visible": True,
+            "x": 92,
+            "y": 42,
+            "size": 100,
+            "direction": 90,
+            "draggable": False,
+            "rotationStyle": "all around"
         }
 
         # Serializing json
@@ -77,12 +90,21 @@ class Sprite:
 
         self._zip_directory(path)
 
+        self._delete_temp_file(path)
+
     def _save_images(self, path):
 
         for i in self.list_costumes:
-            new_path = path + "/" + i.assetId + ".png"
+            new_path = path + "/" + i.getAssetId() + ".png"
             cv2.imwrite(new_path, i.image)
 
     def _zip_directory(self, path):
-        path = path
 
+        with zipfile.ZipFile(path + "/Sprite.sprite3", 'w') as zipObj:
+
+            for folderName, subfolders, filenames in os.walk(path + "/Sprite"):
+                for filename in filenames:
+                    zipObj.write(path + "/Sprite/" + filename, filename)
+
+    def _delete_temp_file(self, path):
+        shutil.rmtree(path + "/Sprite")

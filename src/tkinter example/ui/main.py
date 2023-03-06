@@ -1,10 +1,5 @@
-import cv2
-
-from global_sprite import main_sprite
-from sprite.costume import Costume
-from sprite.sprite import Sprite
-from ui.ExportScreen.exportScreen import ExportPage
-from screenTwo import PageTwo
+from ui.ExportScreen.exportScreen import ExportScreen
+from VideoScreen.videoScreen import VideoScreen
 
 import customtkinter as tk  # python 3
 from tkinter import font as tkfont  # python 3
@@ -25,7 +20,7 @@ class SampleApp(tk.CTk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, ExportPage, PageTwo):
+        for F in (StartPage, ExportScreen, VideoScreen):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -59,12 +54,17 @@ class StartPage(tk.CTkFrame):
         titleLabel.pack(side=tk.TOP)
 
         button1 = tk.CTkButton(self, text="New Project", font=("Berlin Sans FB", 56),
-                               command=lambda: self.controller.show_frame("ExportPage") , height=100, width=500)
+                               command=lambda: self.controller.show_frame("ExportScreen"), height=100, width=500)
 
         button1.pack(padx=6, pady=24, side=tk.TOP)
+
+        button2 = tk.CTkButton(self, text="test_Video_screen", font=("Berlin Sans FB", 56),
+                               command=lambda: self.controller.show_frame("VideoScreen"), height=100, width=500)
+
+        button2.pack(padx=6, pady=24, side=tk.TOP)
 
 
 if __name__ == "__main__":
     app = SampleApp()
-    app.geometry("1440x1080")
+    app.geometry("1920x1080")
     app.mainloop()
