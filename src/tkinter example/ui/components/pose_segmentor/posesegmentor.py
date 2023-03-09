@@ -1,10 +1,13 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-class pose_segmentor:
 
-    mp_pose = mp.solutions.pose
-    _bg_image = None
+
+class PoseSegmentor:
+
+    def __init__(self):
+        self.mp_pose = mp.solutions.pose
+        self._bg_image = None
 
     def image_segmentor(self, image):
         with self.mp_pose.Pose(
@@ -27,11 +30,14 @@ class pose_segmentor:
             annotated_image = image.copy()
 
             try:
-                ##Segment the image
+                # Segment the image
                 condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.14
-            except:
-                print("")
 
-            self._bg_image = np.zeros(image.shape, dtype=np.uint8)
-            self._bg_image[:] = BG_COLOR
-            annotated_image = np.where(condition, annotated_image, self._bg_image)
+                self._bg_image = np.zeros(image.shape, dtype=np.uint8)
+                self._bg_image[:] = BG_COLOR
+                annotated_image = np.where(condition, annotated_image, self._bg_image)
+
+                return annotated_image
+
+            except:
+                return annotated_image

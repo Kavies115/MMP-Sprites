@@ -54,14 +54,11 @@ class StartPage(tk.CTkFrame):
         titleLabel.pack(side=tk.TOP)
 
         button1 = tk.CTkButton(self, text="New Project", font=("Berlin Sans FB", 56),
-                               command=lambda: self.controller.show_frame("ExportScreen"), height=100, width=500)
+                               command=lambda: self.controller.show_frame("VideoScreen"), height=100, width=500)
 
         button1.pack(padx=6, pady=24, side=tk.TOP)
 
-        button2 = tk.CTkButton(self, text="test_Video_screen", font=("Berlin Sans FB", 56),
-                               command=lambda: self.controller.show_frame("VideoScreen"), height=100, width=500)
 
-        button2.pack(padx=6, pady=24, side=tk.TOP)
 
 
 if __name__ == "__main__":

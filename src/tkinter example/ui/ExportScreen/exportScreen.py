@@ -33,7 +33,7 @@ class ExportScreen(tk.CTkFrame):
                                    command=self._export_sprite)
         button_back.pack(padx=8, pady=8, side=tk.RIGHT, anchor="e", fill=tk.BOTH)
 
-        button_back = tk.CTkButton(master=frame_for_export, text="Back", font=("Cooper Black", 46))
+        button_back = tk.CTkButton(master=frame_for_export, text="Back", font=("Cooper Black", 46),  command=lambda: self.controller.show_frame("VideoScreen"))
         button_back.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
 
         self._list_of_images(frame_for_picture_list)

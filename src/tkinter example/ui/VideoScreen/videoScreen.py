@@ -5,6 +5,8 @@ import cv2
 from PIL import Image as Img
 from PIL import ImageTk
 
+from components.pose_segmentor.posesegmentor import PoseSegmentor
+
 
 class VideoScreen(tk.CTkFrame):
     cap = cv2.VideoCapture(0)
@@ -14,9 +16,9 @@ class VideoScreen(tk.CTkFrame):
     def __init__(self, parent, controller):
         tk.CTkFrame.__init__(self, parent)
         self.controller = controller
-        self._video_screen_content()
+        self._video_screen_content(controller=controller)
 
-    def _video_screen_content(self):
+    def _video_screen_content(self, controller):
         self.grid_rowconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
 
@@ -33,14 +35,29 @@ class VideoScreen(tk.CTkFrame):
         label_widget = tk.CTkLabel(frame_for_video, text="")
         label_widget.pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
+        button_export_screen = tk.CTkButton(frame_for_menubar, text="Next", font=("Berlin Sans FB", 56),
+                                            command=lambda: self.controller.show_frame("ExportScreen"), height=100,
+                                            width=500)
+
+        button_export_screen.pack(padx=6, pady=24, side=tk.RIGHT)
+
+        button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
+                                          command=lambda: self.controller.show_frame("StartPage"), height=100,
+                                          width=500)
+
+        button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
+
         self.show_frames()
 
     def show_frames(self):
         # Capture the video frame by frame
         _, frame = self.cap.read()
 
+        # Segment the frame (when this part of the )
+        segmented_frame = PoseSegmentor().image_segmentor(frame)
+
         # Convert image from one color space to other
-        opencv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
+        opencv_image = cv2.cvtColor(segmented_frame, cv2.COLOR_BGR2RGBA)
 
         # Capture the latest frame and transform to image
         captured_image = Img.fromarray(opencv_image)
