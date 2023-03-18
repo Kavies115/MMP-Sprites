@@ -10,6 +10,7 @@ class ExportScreen(tk.CTkFrame):
 
     def __init__(self, parent, controller):
         tk.CTkFrame.__init__(self, parent)
+        self.button = None
         self.controller = controller
         self.export_page_content()
 
@@ -29,12 +30,17 @@ class ExportScreen(tk.CTkFrame):
         self.grid_rowconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
 
-        button_back = tk.CTkButton(master=frame_for_export, text="Export", font=("Cooper Black", 46),
+        button_export = tk.CTkButton(master=frame_for_export, text="Export", font=("Cooper Black", 46),
                                    command=self._export_sprite)
-        button_back.pack(padx=8, pady=8, side=tk.RIGHT, anchor="e", fill=tk.BOTH)
+        button_export.pack(padx=8, pady=8, side=tk.RIGHT, anchor="e", fill=tk.BOTH)
 
         button_back = tk.CTkButton(master=frame_for_export, text="Back", font=("Cooper Black", 46),  command=lambda: self.controller.show_frame("VideoScreen"))
         button_back.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
+
+        button_refresh = tk.CTkButton(master=frame_for_export, text="Refresh", font=("Cooper Black", 46),
+                                   command=lambda: self._list_of_images(frame_for_picture_list))
+        button_refresh.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
+
 
         self._list_of_images(frame_for_picture_list)
         self._costume_editor_frame(frame_for_filters)
@@ -47,24 +53,19 @@ class ExportScreen(tk.CTkFrame):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
         main_sprite.export(path)
 
+
+
+    def add_costume_to_list(self, frame, costume):
+        image = costume.image_cv2_to_tkinter(40)
+
+        self.button.append = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
+                                          text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
+
     def _list_of_images(self, frame):
-        img = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
-        c1 = Costume(img)
-        c1.assetId = "walter1"
 
-        img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
-        c2 = Costume(img2)
-        c2.assetId = "walter2"
-
-        img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
-        c3 = Costume(img3)
-        c3.assetId = "walter3"
-
-        main_sprite.sprite_name = "walter"
-
-        main_sprite.add_list_img(c1)
-        main_sprite.add_list_img(c2)
-        main_sprite.add_list_img(c3)
+        # Clear frame
+        for widgets in frame.winfo_children():
+            widgets.destroy()
 
         for i in main_sprite.list_costumes:
             image = i.image_cv2_to_tkinter(20)

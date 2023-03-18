@@ -12,9 +12,10 @@ from sprite.costume import Costume
 
 class VideoScreen(tk.CTkFrame):
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1200)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 800)
     segmentor = PoseSegmentor()
+    button = []
 
     def __init__(self, parent, controller):
         tk.CTkFrame.__init__(self, parent)
@@ -28,7 +29,7 @@ class VideoScreen(tk.CTkFrame):
         frame_for_video = tk.CTkFrame(self, width=1500)
         frame_for_video.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=20, pady=20)
 
-        frame_for_frames = tk.CTkFrame(self)
+        frame_for_frames = tk.CTkScrollableFrame(self)
         frame_for_frames.grid(row=0, column=1, rowspan=4, sticky="nsew", padx=20, pady=20)
 
         frame_for_menubar = tk.CTkFrame(self)
@@ -51,7 +52,7 @@ class VideoScreen(tk.CTkFrame):
         button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
 
         button_take_photo = tk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
-                                         command=lambda: self._take_photo(), height=100, width=500)
+                                         command=lambda: self._take_photo(frame_for_frames), height=100, width=500)
 
         button_take_photo.pack(padx=8, pady=8, side=tk.BOTTOM)
 
@@ -61,11 +62,9 @@ class VideoScreen(tk.CTkFrame):
         # Capture the video frame by frame
         _, frame = self.cap.read()
 
-        # Segment the frame
-        segmented_frame = self.segmentor.image_segmentor(image=frame)
 
         # Convert image from one color space to other
-        opencv_image = cv2.cvtColor(segmented_frame, cv2.COLOR_BGR2RGBA)
+        opencv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
 
         # Capture the latest frame and transform to image
         captured_image = Img.fromarray(opencv_image)
@@ -81,10 +80,33 @@ class VideoScreen(tk.CTkFrame):
 
         label_widget.after(10, self.show_frames)
 
-    def _take_photo(self):
+    def _take_photo(self, frame):
         # For testing just take the img from the camera
-        _, frame = self.cap.read()
+        _, photo = self.cap.read()
 
-        costume = Costume(frame)
+        # Segment the frame
+        segmented_frame = self.segmentor.image_segmentor(image=photo)
+
+        costume = Costume(segmented_frame)
 
         main_sprite.add_list_img(costume)
+
+        self._add_costume_to_list(frame, costume)
+
+
+
+    def _add_costume_to_list(self, frame, costume):
+        image = costume.image_cv2_to_tkinter(40)
+
+        self.button.append = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
+                                          text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
+
+    def _list_of_images(self, frame):
+
+        self.button.clear()
+
+        for i in main_sprite.list_costumes:
+            image = i.image_cv2_to_tkinter(20)
+
+            self.button.append = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
+

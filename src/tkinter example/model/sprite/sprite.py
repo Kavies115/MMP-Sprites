@@ -46,9 +46,9 @@ class Sprite:
             item = {
                 "name": i.costume_name + str(index_in_list),
                 "bitmapResolution": 2,
-                "dataFormat": "png",
+                "dataFormat": "jpg",
                 "assetId": i.getAssetId(),
-                "md5ext": i.getAssetId() + ".png",
+                "md5ext": i.getAssetId() + ".jpg",
                 "rotationCenterX": i.image.shape[1] / 2,
                 "rotationCentery": i.image.shape[0] / 2,
 
@@ -95,7 +95,7 @@ class Sprite:
     def _save_images(self, path):
 
         for i in self.list_costumes:
-            new_path = path + "/" + i.getAssetId() + ".png"
+            new_path = path + "/" + i.getAssetId() + ".jpg"
             cv2.imwrite(new_path, i.image)
 
     def _zip_directory(self, path):

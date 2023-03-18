@@ -16,7 +16,7 @@ class PoseSegmentor:
                 enable_segmentation=True,
                 smooth_segmentation=True) as pose:
 
-            BG_COLOR = (192, 192, 192)  # gray
+            BG_COLOR = (255, 255, 255)  # gray
 
             ## Alot of this code was taken and modified from https://google.github.io/mediapipe/solutions/pose.html
             image.flags.writeable = False
