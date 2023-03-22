@@ -42,7 +42,7 @@ class Sprite:
 
         costumes = []
 
-        os.mkdir(tempPath + "/Sprite")
+        os.mkdir(tempPath + "/" + self.sprite_name)
 
         # path = path + "/Sprite"
         index_in_list = 0
@@ -92,10 +92,10 @@ class Sprite:
         json_object = json.dumps(dictionary, indent=4)
 
         # Writing to sample.json
-        with open(path + "/Sprite" + "/sprite.json", "w") as outfile:
+        with open(path + "/"+ self.sprite_name + "/sprite.json", "w") as outfile:
             outfile.write(json_object)
 
-        self._save_images(path + "/Sprite")
+        self._save_images(path + "/" + self.sprite_name)
 
         self._zip_directory(path)
 
@@ -109,11 +109,11 @@ class Sprite:
 
     def _zip_directory(self, path):
 
-        with zipfile.ZipFile(path + "/Sprite.sprite3", 'w') as zipObj:
+        with zipfile.ZipFile(path + "/" + self.sprite_name + ".sprite3", 'w') as zipObj:
 
-            for folderName, subfolders, filenames in os.walk(path + "/Sprite"):
+            for folderName, subfolders, filenames in os.walk(path + "/" + self.sprite_name):
                 for filename in filenames:
-                    zipObj.write(path + "/Sprite/" + filename, filename)
+                    zipObj.write(path + "/"+ self.sprite_name +"/" + filename, filename)
 
     def _delete_temp_file(self, path):
-        shutil.rmtree(path + "/Sprite")
+        shutil.rmtree(path + "/" + self.sprite_name)

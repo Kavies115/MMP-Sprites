@@ -33,6 +33,7 @@ class VideoScreen(tk.CTkFrame):
         frame_for_video = tk.CTkFrame(self, width=1500)
         frame_for_video.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=20, pady=20)
 
+        global frame_for_frames
         frame_for_frames = tk.CTkScrollableFrame(self)
         frame_for_frames.grid(row=0, column=1, rowspan=4, sticky="nsew", padx=20, pady=20)
 
@@ -47,7 +48,7 @@ class VideoScreen(tk.CTkFrame):
                                             command=lambda: controller.show_frame("ExportScreen"), height=100,
                                             width=500)
 
-        button_export_screen.pack(padx=6, pady=24, side=tk.RIGHT)
+        button_export_screen.pack(padx=6, pady=24)
 
         # button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
         #                                   command=lambda: controller.show_frame("StartPage"), height=100,
@@ -58,9 +59,16 @@ class VideoScreen(tk.CTkFrame):
         button_take_photo = tk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
                                          command=lambda: self._take_photo(frame_for_frames), height=100, width=500)
 
-        button_take_photo.pack(padx=8, pady=8, side=tk.CENTER)
+        button_take_photo.pack(padx=8, pady=14, side=tk.BOTTOM)
 
         self.show_frames()
+        self._update()
+
+
+    '''Update the costume view frame so that its always up to date'''
+    def _update(self):
+        self._list_of_images(frame_for_frames)
+        frame_for_frames.after(1000, self._update)  # run itself again after 1000 ms
 
     def show_frames(self):
         # Capture the video frame by frame
@@ -82,7 +90,7 @@ class VideoScreen(tk.CTkFrame):
         # Configure image in the label
         label_widget.configure(image=photo_image)
 
-        label_widget.after(10, self.show_frames)
+        label_widget.after(50, self.show_frames)
 
     def _take_photo(self, frame):
         # For testing just take the img from the camera
@@ -100,7 +108,7 @@ class VideoScreen(tk.CTkFrame):
 
 
     def _add_costume_to_list(self, frame, costume):
-        image = costume.image_cv2_to_tkinter(40)
+        image = costume.image_cv2_to_tkinter(50)
 
         button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
                                           text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
@@ -113,7 +121,7 @@ class VideoScreen(tk.CTkFrame):
         self.button.clear()
 
         for i in main_sprite.list_costumes:
-            image = i.image_cv2_to_tkinter(20)
+            image = i.image_cv2_to_tkinter(50)
 
             button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
 

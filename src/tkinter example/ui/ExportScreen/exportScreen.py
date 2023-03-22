@@ -67,7 +67,7 @@ class ExportScreen(tk.CTkFrame):
         image = costume.image_cv2_to_tkinter(60)
         label_image = tk.CTkLabel(master=frame, text="", image=image).pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
-        label_costume = tk.CTkLabel(master=frame, text="Sprite", font=("Cooper Black", 32))
+        label_costume = tk.CTkLabel(master=frame, text="Costume Name", font=("Cooper Black", 32))
         label_costume.pack(side="top", padx=60, pady=12)
 
         textbox_costume_name = tk.CTkTextbox(master=frame, width=400, height=40, font=("Cooper Black", 32))

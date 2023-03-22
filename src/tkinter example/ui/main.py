@@ -38,10 +38,6 @@ class SampleApp(tk.CTk):
         frame = self.frames[page_name]
         frame.tkraise()
 
-    def refresh(self):
-        self.update()
-
-
 
 class StartPage(tk.CTkFrame):
 
