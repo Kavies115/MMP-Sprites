@@ -44,6 +44,6 @@ class CostumeTest(unittest.TestCase):
         s1 = Sprite()
         s1.sprite_name = "Walter"
 
-        s1.add_list_img(c1)
+        s1.add_costume(c1)
 
         s1.export("C:\\Users\\Kavie\\Desktop\\testting")

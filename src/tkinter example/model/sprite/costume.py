@@ -38,3 +38,9 @@ class Costume:
 
     def getAssetId(self):
         return self._assetId
+
+    def get_costume_name(self):
+        return self.costume_name
+
+    def set_costume_name(self, name):
+        self.costume_name = name

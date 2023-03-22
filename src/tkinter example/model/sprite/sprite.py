@@ -13,19 +13,28 @@ class Sprite:
     sprite_name = ""
     list_costumes = []
 
-    def add_list_img(self, img):
+    def add_costume(self, img):
         self.list_costumes.append(img)
 
-    def remove_list_img(self, img):
+    def remove_costume(self, img):
         self.list_costumes.remove(img)
 
-    def clear_list_img(self):
+    def clear_costumes(self):
         self.list_costumes.clear()
 
-    def print_list_img(self):
+    def print_costumes(self):
         for x in self.list_costumes:
             cv2.imShow(x)
             cv2.waitKey(0)
+
+    def find_costume(self, costume):
+        return self.list_costumes.index(costume)
+
+    def get_sprite_name(self):
+        return self.sprite_name
+
+    def set_sprite_name(self, name):
+        self.sprite_name = name
 
     def export(self, path):
 

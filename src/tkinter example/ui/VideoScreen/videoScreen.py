@@ -23,6 +23,10 @@ class VideoScreen(tk.CTkFrame):
         self._video_screen_content(controller=controller)
 
     def _video_screen_content(self, controller):
+
+        for widgets in self.winfo_children():
+            widgets.destroy()
+
         self.grid_rowconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
 
@@ -40,21 +44,21 @@ class VideoScreen(tk.CTkFrame):
         label_widget.pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
         button_export_screen = tk.CTkButton(frame_for_menubar, text="Next", font=("Berlin Sans FB", 56),
-                                            command=lambda: self.controller.show_frame("ExportScreen"), height=100,
+                                            command=lambda: controller.show_frame("ExportScreen"), height=100,
                                             width=500)
 
         button_export_screen.pack(padx=6, pady=24, side=tk.RIGHT)
 
-        button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
-                                          command=lambda: self.controller.show_frame("StartPage"), height=100,
-                                          width=500)
-
-        button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
+        # button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
+        #                                   command=lambda: controller.show_frame("StartPage"), height=100,
+        #                                   width=500)
+        #
+        # button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
 
         button_take_photo = tk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
                                          command=lambda: self._take_photo(frame_for_frames), height=100, width=500)
 
-        button_take_photo.pack(padx=8, pady=8, side=tk.BOTTOM)
+        button_take_photo.pack(padx=8, pady=8, side=tk.CENTER)
 
         self.show_frames()
 
@@ -89,7 +93,7 @@ class VideoScreen(tk.CTkFrame):
 
         costume = Costume(segmented_frame)
 
-        main_sprite.add_list_img(costume)
+        main_sprite.add_costume(costume)
 
         self._add_costume_to_list(frame, costume)
 
@@ -98,15 +102,18 @@ class VideoScreen(tk.CTkFrame):
     def _add_costume_to_list(self, frame, costume):
         image = costume.image_cv2_to_tkinter(40)
 
-        self.button.append = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
+        button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
                                           text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
 
     def _list_of_images(self, frame):
+
+        for widgets in frame.winfo_children():
+            widgets.destroy()
 
         self.button.clear()
 
         for i in main_sprite.list_costumes:
             image = i.image_cv2_to_tkinter(20)
 
-            self.button.append = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
+            button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
 
