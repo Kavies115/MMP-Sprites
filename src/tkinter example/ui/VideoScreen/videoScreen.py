@@ -15,15 +15,16 @@ class VideoScreen(tk.CTkFrame):
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 800)
     segmentor = PoseSegmentor()
-    button = []
 
     def __init__(self, parent, controller):
         tk.CTkFrame.__init__(self, parent)
         self.controller = controller
         self._video_screen_content(controller=controller)
 
+    '''Contents of the video screen'''
     def _video_screen_content(self, controller):
 
+        # CLears all widgets in the frame if we need to rebuild the screen
         for widgets in self.winfo_children():
             widgets.destroy()
 
@@ -33,16 +34,18 @@ class VideoScreen(tk.CTkFrame):
         frame_for_video = tk.CTkFrame(self, width=1500)
         frame_for_video.grid(row=0, column=0, rowspan=3, sticky="nsew", padx=20, pady=20)
 
-        global frame_for_frames
-        frame_for_frames = tk.CTkScrollableFrame(self)
-        frame_for_frames.grid(row=0, column=1, rowspan=4, sticky="nsew", padx=20, pady=20)
+        # Need to be gloabl so we can automatically refresh list of costumes
+        global frame_for_costumes
+        frame_for_costumes = tk.CTkScrollableFrame(self)
+        frame_for_costumes.grid(row=0, column=1, rowspan=4, sticky="nsew", padx=20, pady=20)
 
         frame_for_menubar = tk.CTkFrame(self)
         frame_for_menubar.grid(row=3, column=0, sticky="nsew", padx=20, pady=20)
 
-        global label_widget
-        label_widget = tk.CTkLabel(frame_for_video, text="")
-        label_widget.pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
+        # Needs to be global so that we can always keep up to date with webcam feed
+        global webcam_feed
+        webcam_feed = tk.CTkLabel(frame_for_video, text="")
+        webcam_feed.pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
         button_export_screen = tk.CTkButton(frame_for_menubar, text="Next", font=("Berlin Sans FB", 56),
                                             command=lambda: controller.show_frame("ExportScreen"), height=100,
@@ -50,26 +53,31 @@ class VideoScreen(tk.CTkFrame):
 
         button_export_screen.pack(padx=6, pady=24)
 
+        # Back button (Dont know if i want to keep it yet)
         # button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
         #                                   command=lambda: controller.show_frame("StartPage"), height=100,
         #                                   width=500)
         #
         # button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
 
+        # Take photo
         button_take_photo = tk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
-                                         command=lambda: self._take_photo(frame_for_frames), height=100, width=500)
+                                         command=lambda: self._take_photo(frame_for_costumes), height=100, width=500)
 
         button_take_photo.pack(padx=8, pady=14, side=tk.BOTTOM)
 
+        # Starts Camera
         self.show_frames()
+        # Updates costume list
         self._update()
 
 
     '''Update the costume view frame so that its always up to date'''
     def _update(self):
-        self._list_of_images(frame_for_frames)
-        frame_for_frames.after(1000, self._update)  # run itself again after 1000 ms
+        self._list_of_images(frame_for_costumes)
+        frame_for_costumes.after(1000, self._update)  # run itself again after 1000 ms
 
+    '''Gets webcam feed and keeps it updated'''
     def show_frames(self):
         # Capture the video frame by frame
         _, frame = self.cap.read()
@@ -85,42 +93,45 @@ class VideoScreen(tk.CTkFrame):
         photo_image = ImageTk.PhotoImage(image=captured_image)
 
         # Displaying photoimage in the label
-        label_widget.photo_image = photo_image
+        webcam_feed.photo_image = photo_image
 
         # Configure image in the label
-        label_widget.configure(image=photo_image)
+        webcam_feed.configure(image=photo_image)
 
-        label_widget.after(50, self.show_frames)
+        #Update every 50 ms
+        webcam_feed.after(50, self.show_frames)
 
+    '''Takes photo from the camera feed'''
     def _take_photo(self, frame):
-        # For testing just take the img from the camera
         _, photo = self.cap.read()
 
         # Segment the frame
-        segmented_frame = self.segmentor.image_segmentor(image=photo)
+        _, segmented_frame = self.segmentor.image_segmentor(image=photo)
 
+        # create into costume
         costume = Costume(segmented_frame)
 
+        # Add costume to the sprite
         main_sprite.add_costume(costume)
 
+        # Adds to the costume list
         self._add_costume_to_list(frame, costume)
 
-
-
+    '''Adds costume to the list of costumes'''
     def _add_costume_to_list(self, frame, costume):
         image = costume.image_cv2_to_tkinter(50)
 
         button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
                                           text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)
 
+    '''Lists all the costumes in a sprite and diplays them'''
     def _list_of_images(self, frame):
 
+        # Clear old frames
         for widgets in frame.winfo_children():
             widgets.destroy()
 
-        self.button.clear()
-
-        for i in main_sprite.list_costumes:
+        for i in main_sprite.get_list_costumes():
             image = i.image_cv2_to_tkinter(50)
 
             button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=tk.TOP, anchor="n", fill=tk.Y)

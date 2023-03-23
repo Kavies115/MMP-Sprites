@@ -13,14 +13,18 @@ class ExportScreen(tk.CTkFrame):
         self.controller = controller
         self.export_page_content()
 
+    '''Contains upper level of content the window'''
     def export_page_content(self):
 
+        # Clears all frames
         for widgets in self.winfo_children():
             widgets.destroy()
 
+        # Frame for The list of pictures
         frame_for_picture_list = tk.CTkScrollableFrame(self, width=350)
         frame_for_picture_list.grid(row=0, column=0, rowspan=1, sticky="nsew", padx=20, pady=20)
 
+        
         frame_for_filters = tk.CTkFrame(self)
         frame_for_filters.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
@@ -41,15 +45,15 @@ class ExportScreen(tk.CTkFrame):
                                    command=lambda: self.controller.show_frame("VideoScreen"))
         button_back.pack(padx=8, pady=8, side=tk.LEFT, anchor="w", fill=tk.BOTH)
 
+        # Pressing refreshes the picture list
         button_refresh = tk.CTkButton(master=self, text="Refresh", font=("Cooper Black", 46),
                                       command=lambda: self._list_of_images(frame_for_picture_list, frame_for_filters))
         button_refresh.grid(row=1, column=0, sticky="nsew", padx=20, pady=20)
 
-        self._list_of_images(frame_for_picture_list, frame_for_filters)
-        # self._costume_editor_frame_start(frame_for_filters)
-
+    '''Contents of the editor frame'''
     def _costume_editor_frame(self, frame, costume):
 
+        # Clears frames
         for widgets in frame.winfo_children():
             widgets.destroy()
 
@@ -63,7 +67,7 @@ class ExportScreen(tk.CTkFrame):
         textbox_sprite_name.insert(tk.INSERT, main_sprite.get_sprite_name())
         textbox_sprite_name.pack(side="top", padx=60, pady=12)
 
-        ## Space for the Img
+        # Picture of the costume youre editing
         image = costume.image_cv2_to_tkinter(60)
         label_image = tk.CTkLabel(master=frame, text="", image=image).pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
@@ -80,25 +84,30 @@ class ExportScreen(tk.CTkFrame):
         button_delete = tk.CTkButton(master=frame, text="Delete", font=("Cooper Black", 46), command=lambda : self._editor_delete(costume))
         button_delete.pack(padx=8, pady=8, anchor="s")
 
+    '''Saves the Sprite name and Costume name'''
     def _editor_save(self, sprite_name, costume_name, costume):
         main_sprite.set_sprite_name(sprite_name)
         costume.set_costume_name(costume_name)
 
+    '''Deletes the costume'''
     def _editor_delete(self, costume):
         main_sprite.remove_costume(costume)
         self.export_page_content()
 
+    '''Exports the Sprite'''
     def _export_sprite(self):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
         main_sprite.export(path)
 
+    '''Displays the list of images'''
     def _list_of_images(self, frame, export_frame):
 
         # Clear frame
         for widgets in frame.winfo_children():
             widgets.destroy()
 
-        for costume in main_sprite.list_costumes:
+        # Goes through the whole list and makes a button for each costume
+        for costume in main_sprite.get_list_costumes():
             image = costume.image_cv2_to_tkinter(30)
 
             button = tk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="",

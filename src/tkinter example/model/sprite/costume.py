@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import hashlib
 
 class Costume:
-    costume_name = ""
+    _costume_name = ""
     _assetId = ""
 
     def __init__(self, img):
@@ -16,6 +16,7 @@ class Costume:
     # Take input of how much you want to scale it down
     # then converts the openCV image format into ine tkinter can use.
     # For buttons, you probally want to use a scale of 20
+    '''Input the scale as a percentage you want the image to return as and make it a form tkinter can display'''
     def image_cv2_to_tkinter(self, scale):
         new_image = self.image
 
@@ -36,11 +37,14 @@ class Costume:
 
         return imgtk
 
+    '''returns assetID'''
     def getAssetId(self):
         return self._assetId
 
+    '''returns name of costume'''
     def get_costume_name(self):
-        return self.costume_name
+        return self._costume_name
 
+    '''sets the costume name'''
     def set_costume_name(self, name):
-        self.costume_name = name
+        self._costume_name = name

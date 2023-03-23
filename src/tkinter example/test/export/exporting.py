@@ -42,7 +42,7 @@ class CostumeTest(unittest.TestCase):
         c1.assetId = "walter1"
 
         s1 = Sprite()
-        s1.sprite_name = "Walter"
+        s1._sprite_name = "Walter"
 
         s1.add_costume(c1)
 
