@@ -23,10 +23,9 @@ class ExportScreen(tk.CTkFrame):
         # Frame for The list of pictures
         frame_for_picture_list = tk.CTkScrollableFrame(self, width=350)
         frame_for_picture_list.grid(row=0, column=0, rowspan=1, sticky="nsew", padx=20, pady=20)
-
         
-        frame_for_filters = tk.CTkFrame(self)
-        frame_for_filters.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
+        frame_for_editor = tk.CTkFrame(self)
+        frame_for_editor.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
         frame_for_export = tk.CTkFrame(self)
         frame_for_export.grid(row=1, column=1, sticky="nsew", padx=20, pady=20)
@@ -47,8 +46,10 @@ class ExportScreen(tk.CTkFrame):
 
         # Pressing refreshes the picture list
         button_refresh = tk.CTkButton(master=self, text="Refresh", font=("Cooper Black", 46),
-                                      command=lambda: self._list_of_images(frame_for_picture_list, frame_for_filters))
+                                      command=lambda: self._list_of_images(frame_for_picture_list, frame_for_editor))
         button_refresh.grid(row=1, column=0, sticky="nsew", padx=20, pady=20)
+
+        self._list_of_images(frame_for_picture_list, frame_for_editor)
 
     '''Contents of the editor frame'''
     def _costume_editor_frame(self, frame, costume):
@@ -67,9 +68,9 @@ class ExportScreen(tk.CTkFrame):
         textbox_sprite_name.insert(tk.INSERT, main_sprite.get_sprite_name())
         textbox_sprite_name.pack(side="top", padx=60, pady=12)
 
-        # Picture of the costume youre editing
+        # Picture of the costume users editing
         image = costume.image_cv2_to_tkinter(60)
-        label_image = tk.CTkLabel(master=frame, text="", image=image).pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
+        tk.CTkLabel(master=frame, text="", image=image).pack(padx=8, pady=8, side=tk.TOP, anchor="w", fill=tk.BOTH)
 
         label_costume = tk.CTkLabel(master=frame, text="Costume Name", font=("Cooper Black", 32))
         label_costume.pack(side="top", padx=60, pady=12)
@@ -83,6 +84,8 @@ class ExportScreen(tk.CTkFrame):
 
         button_delete = tk.CTkButton(master=frame, text="Delete", font=("Cooper Black", 46), command=lambda : self._editor_delete(costume))
         button_delete.pack(padx=8, pady=8, anchor="s")
+
+
 
     '''Saves the Sprite name and Costume name'''
     def _editor_save(self, sprite_name, costume_name, costume):
