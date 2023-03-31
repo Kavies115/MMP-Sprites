@@ -2,7 +2,6 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-
 class PoseSegmentor:
 
     def __init__(self):
@@ -25,15 +24,21 @@ class PoseSegmentor:
             BG_COLOR = (255, 255, 255)  # white
 
             # Alot of this code was taken and modified from https://google.github.io/mediapipe/solutions/pose.html
+
+
             results = pose.process(image_to_annotate)
+
 
             annotated_image = image_to_annotate.copy()
 
             try:
-                # Segment the image
+
+                #annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2RGBA)
+
+                # find where the image needs to be segmentated
                 condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.14
 
-                self._bg_image = np.zeros(image.shape, dtype=np.uint8)
+                self._bg_image = np.zeros(annotated_image.shape, dtype=np.uint8)
                 self._bg_image[:] = BG_COLOR
                 annotated_image = np.where(condition, annotated_image, self._bg_image)
 

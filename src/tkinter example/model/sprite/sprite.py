@@ -14,30 +14,39 @@ class Sprite:
     _list_costumes = []
 
     '''Adds costume to the Sprite'''
+
     def add_costume(self, costume):
         self._list_costumes.append(costume)
 
     '''Removes costume from the list of costumes'''
+
     def remove_costume(self, costume):
         self._list_costumes.remove(costume)
 
     '''Clears the costumes in the list'''
+
     def clear_costumes(self):
         self._list_costumes.clear()
 
     '''Returns list of costumes'''
+
     def get_list_costumes(self):
         return self._list_costumes
 
     '''shows all the costumes one by one (for testing)'''
+
     def print_costumes(self):
         for x in self._list_costumes:
             cv2.imShow(x)
             cv2.waitKey(0)
 
     '''search list to find the costume and returns its location'''
+
     def find_costume(self, costume):
-        return self._list_costumes.index(costume)
+        try:
+            return self._list_costumes.index(costume)
+        except:
+            return False
 
     ''':return the sprites name'''
     def get_sprite_name(self):
@@ -45,9 +54,14 @@ class Sprite:
 
     '''Changes the name of the Sprite'''
     def set_sprite_name(self, name):
-        self._sprite_name = name
+
+        if name == "":
+            name = "Sprite"
+
+        self._sprite_name = name[:25]
 
     '''Exports the sprite and costumes into a .sprite3 format'''
+
     def export(self, path):
 
         tempPath = path
@@ -65,13 +79,12 @@ class Sprite:
             if i._costume_name == "":
                 i._costume_name = self._sprite_name + str(index_in_list)
 
-
             item = {
                 "name": i._costume_name,
                 "bitmapResolution": 2,
                 "dataFormat": "jpg",
-                "assetId": i.getAssetId(),
-                "md5ext": i.getAssetId() + ".jpg",
+                "assetId": i.get_costume_assetId(),
+                "md5ext": i.get_costume_assetId() + ".jpg",
                 "rotationCenterX": i.image.shape[1] / 2,
                 "rotationCentery": i.image.shape[0] / 2,
 
@@ -91,7 +104,7 @@ class Sprite:
             "blocks": {},
             "comments": {},
             "currentCostume": 0,
-            "costumes": costumes, # all the costumes get added here
+            "costumes": costumes,  # all the costumes get added here
             "sounds": [],
             "volume": 100,
             "visible": True,
@@ -118,13 +131,15 @@ class Sprite:
         self._delete_temp_file(path)
 
     '''Saves the IMGs of the costumes to a file path'''
+
     def _save_images(self, path):
 
         for i in self._list_costumes:
-            new_path = path + "/" + i.getAssetId() + ".jpg"
+            new_path = path + "/" + i.get_costume_assetId() + ".jpg"
             cv2.imwrite(new_path, i.image)
 
     '''Compress the folder directory as a ZIP and rename to end with .sprite3'''
+
     def _zip_directory(self, path):
 
         with zipfile.ZipFile(path + "/" + self._sprite_name + ".sprite3", 'w') as zipObj:
@@ -134,5 +149,6 @@ class Sprite:
                     zipObj.write(path + "/" + self._sprite_name + "/" + filename, filename)
 
     '''Delete the temp file created'''
+
     def _delete_temp_file(self, path):
         shutil.rmtree(path + "/" + self._sprite_name)
