@@ -1,7 +1,7 @@
 import tkinter
 
-from ui.ExportScreen.exportScreen import ExportScreen
-from VideoScreen.videoScreen import VideoScreen
+from ui.exportScreen import ExportScreen
+from ui.videoScreen import VideoScreen
 
 import customtkinter as ctk  # python 3
 from tkinter import font as tkfont  # python 3

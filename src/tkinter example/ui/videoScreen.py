@@ -1,13 +1,11 @@
-import asyncio
 import time
-from tkinter import Image
 
 import customtkinter as ctk
 import cv2
 from PIL import Image as Img
 from PIL import ImageTk
 
-from components.pose_segmentor.posesegmentor import PoseSegmentor
+from posesegmentor import PoseSegmentor
 from global_sprite import main_sprite
 from sprite.costume import Costume
 

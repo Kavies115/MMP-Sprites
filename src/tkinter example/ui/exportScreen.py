@@ -1,8 +1,5 @@
 import customtkinter as ctk
-import cv2
-from PIL import Image, ImageTk
 from global_sprite import main_sprite
-from sprite.costume import Costume
 from tkinter import filedialog
 
 
