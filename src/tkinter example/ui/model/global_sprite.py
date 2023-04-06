@@ -1,4 +1,4 @@
-from sprite.sprite import Sprite
+from ui.model.sprite.sprite import Sprite
 
 # The Main sprite of the App
 main_sprite = Sprite()

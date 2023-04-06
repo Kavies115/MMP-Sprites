@@ -5,9 +5,9 @@ import cv2
 from PIL import Image as Img
 from PIL import ImageTk
 
-from posesegmentor import PoseSegmentor
-from global_sprite import main_sprite
-from sprite.costume import Costume
+from ui.posesegmentor import PoseSegmentor
+from ui.model.global_sprite import main_sprite
+from ui.model.sprite.costume import Costume
 
 
 class VideoScreen(ctk.CTkFrame):

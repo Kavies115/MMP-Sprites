@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from global_sprite import main_sprite
+from ui.model.global_sprite import main_sprite
 from tkinter import filedialog
 
 
