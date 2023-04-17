@@ -105,6 +105,9 @@ class ExportScreen(ctk.CTkFrame):
     '''Exports the Sprite'''
     def _export_sprite(self):
         path = filedialog.askdirectory(initialdir="/", title="Select a File")
+        #if user cancels just return
+        if path == "":
+            return
         main_sprite.export(path)
 
     '''Displays the list of images'''

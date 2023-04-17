@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 import hashlib
 import textwrap
 
+
 class Costume:
 
     def __init__(self, img):
@@ -38,13 +39,16 @@ class Costume:
 
         return imgtk
 
+    '''returns image with a transparent background'''
     def image_with_transparent_background(self):
+        # find all pixels that are white
         white_pixels = np.where(
             (self.image[:, :, 0] == 255) &
             (self.image[:, :, 1] == 255) &
             (self.image[:, :, 2] == 255)
         )
 
+        # change image space to have alpha layer
         img = cv2.cvtColor(self.image, cv2.COLOR_RGB2RGBA)
 
         # set those pixels to transparent
