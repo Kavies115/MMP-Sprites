@@ -1,5 +1,6 @@
 from tkinter import Image
 import cv2
+import numpy as np
 from PIL import Image, ImageTk
 import hashlib
 import textwrap
@@ -36,6 +37,20 @@ class Costume:
         imgtk = ImageTk.PhotoImage(image=im)
 
         return imgtk
+
+    def image_with_transparent_background(self):
+        white_pixels = np.where(
+            (self.image[:, :, 0] == 255) &
+            (self.image[:, :, 1] == 255) &
+            (self.image[:, :, 2] == 255)
+        )
+
+        img = cv2.cvtColor(self.image, cv2.COLOR_RGB2RGBA)
+
+        # set those pixels to transparent
+        img[white_pixels] = [255, 255, 255, 0]
+
+        return img
 
     '''returns assetID'''
     def get_costume_assetId(self):

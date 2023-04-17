@@ -29,20 +29,18 @@ class PoseSegmentor:
             results = pose.process(image_to_annotate)
 
 
-            annotated_image = image_to_annotate.copy()
+            segmented_image = image_to_annotate.copy()
 
             try:
-
-                #annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2RGBA)
 
                 # find where the image needs to be segmentated
                 condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.14
 
-                self._bg_image = np.zeros(annotated_image.shape, dtype=np.uint8)
+                self._bg_image = np.zeros(segmented_image.shape, dtype=np.uint8)
                 self._bg_image[:] = BG_COLOR
-                annotated_image = np.where(condition, annotated_image, self._bg_image)
+                segmented_image = np.where(condition, segmented_image, self._bg_image)
 
-                return True, annotated_image
+                return True, segmented_image
 
             except:
                 return False, image

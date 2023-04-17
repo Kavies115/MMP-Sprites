@@ -23,17 +23,13 @@ class SampleApp(ctk.CTk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, ExportScreen, VideoScreen):
+        for F in (StartScreen, ExportScreen, VideoScreen):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
-
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("StartPage")
+        self.show_frame("StartScreen")
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -41,7 +37,7 @@ class SampleApp(ctk.CTk):
         frame.tkraise()
 
 
-class StartPage(ctk.CTkFrame):
+class StartScreen(ctk.CTkFrame):
 
     def __init__(self, parent, controller):
         ctk.CTkFrame.__init__(self, parent)
@@ -60,7 +56,7 @@ class StartPage(ctk.CTkFrame):
         button1.pack(padx=6, pady=24, side=ctk.TOP)
 
     def camera_consent(self, controller):
-        answer = tkinter.messagebox.askyesno(title="Camera Concent",
+        answer = tkinter.messagebox.askyesno(title="Camera Consent",
                                              message="Do you give permission for this application to access your Camera?")
 
         if answer:
@@ -70,6 +66,9 @@ class StartPage(ctk.CTkFrame):
 
 
 if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
+    ctk.set_default_color_theme("green")
     app = SampleApp()
     app.geometry("1320x1080")
+    app.title("Turn me into a Sprite!")
     app.mainloop()

@@ -1,4 +1,5 @@
 import time
+import tkinter
 
 import customtkinter as ctk
 import cv2
@@ -22,6 +23,7 @@ class VideoScreen(ctk.CTkFrame):
         self._video_screen_content(controller=controller)
 
     '''Contents of the video screen'''
+
     def _video_screen_content(self, controller):
 
         # CLears all widgets in the frame if we need to rebuild the screen
@@ -51,9 +53,10 @@ class VideoScreen(ctk.CTkFrame):
                                              command=lambda: controller.show_frame("ExportScreen"), height=100,
                                              width=500)
 
-        button_export_screen.pack(padx=6, pady=24)
+        button_export_screen.pack(padx=8, pady=8)
 
         # Back button (Dont know if i want to keep it yet)
+
         # button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
         #                                   command=lambda: controller.show_frame("StartPage"), height=100,
         #                                   width=500)
@@ -61,23 +64,30 @@ class VideoScreen(ctk.CTkFrame):
         # button_home_screen.pack(padx=6, pady=24, side=tk.LEFT)
 
         # Take photo
-        button_take_photo = ctk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
-                                          command=lambda: self._take_photo(frame_for_costumes), height=100, width=500)
 
-        button_take_photo.pack(padx=8, pady=14, side=ctk.BOTTOM)
+
+        button_take_photo = ctk.CTkButton(frame_for_video, text="Take Photo", font=("Berlin Sans FB", 56),
+                                          command=lambda: self._take_photo(frame_for_costumes),
+                                          height=100, width=500)
+
+        button_take_photo.pack(padx=8, pady=8)
+
+
+
 
         # Starts Camera
         self.show_frames()
         # Updates costume list
         self._update()
 
-
     '''Update the costume view frame so that its always up to date'''
+
     def _update(self):
         self._list_of_images(frame_for_costumes)
         frame_for_costumes.after(1000, self._update)  # run itself again after 1000 ms
 
     '''Gets webcam feed and keeps it updated'''
+
     # https://www.tutorialspoint.com/how-to-show-webcam-in-tkinter-window taken from here
     def show_frames(self):
         # Capture the video frame by frame
@@ -102,14 +112,22 @@ class VideoScreen(ctk.CTkFrame):
         webcam_feed.after(50, self.show_frames)
 
     '''Takes photo from the camera feed'''
+
     def _take_photo(self, frame):
+        # self.countdown()
 
-        #self.countdown()
-
-        _, photo = self.cap.read()
+        did_it_detect_human, photo = self.cap.read()
 
         # Segment the frame
-        _, segmented_frame = self.segmentor.image_segmentor(image=photo)
+        did_it_detect_human, segmented_frame = self.segmentor.image_segmentor(image=photo)
+
+        #Checks to see if human was detected
+        if not did_it_detect_human:
+            tkinter.messagebox.showinfo(title="Error : Human not found",
+                                         message="Human not found, \nMake sure you're in a well lit room \nwith the "
+                                                 "light facing towards you for the best results!")
+            return
+
 
         # create into costume
         costume = Costume(segmented_frame)
@@ -129,8 +147,6 @@ class VideoScreen(ctk.CTkFrame):
             time.sleep(1)
             t -= 1
 
-
-
     def _add_costume_to_list(self, frame, costume):
         image = costume.image_cv2_to_tkinter(50)
 
@@ -138,6 +154,7 @@ class VideoScreen(ctk.CTkFrame):
                                text="").pack(padx=8, pady=8, side=ctk.TOP, anchor="n", fill=ctk.Y)
 
     '''Lists all the costumes in a sprite and diplays them'''
+
     def _list_of_images(self, frame):
 
         # Clear old frames
@@ -147,5 +164,5 @@ class VideoScreen(ctk.CTkFrame):
         for i in main_sprite.get_list_costumes():
             image = i.image_cv2_to_tkinter(50)
 
-            button = ctk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent", text="").pack(padx=8, pady=8, side=ctk.TOP, anchor="n", fill=ctk.Y)
-
+            button = ctk.CTkButton(master=frame, image=image, bg_color="transparent", fg_color="transparent",
+                                   text="").pack(padx=8, pady=8, side=ctk.TOP, anchor="n", fill=ctk.Y)

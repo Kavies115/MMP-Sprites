@@ -1,3 +1,5 @@
+import tkinter
+
 import customtkinter as ctk
 from ui.model.global_sprite import main_sprite
 from tkinter import filedialog
@@ -86,6 +88,12 @@ class ExportScreen(ctk.CTkFrame):
 
     '''Saves the Sprite name and Costume name'''
     def _editor_save(self, sprite_name, costume_name, costume):
+
+        if sprite_name.__contains__("/"):
+            tkinter.messagebox.showerror(title="Error",
+                                        message="Please remove \"/\" from the Sprite name")
+            return
+
         main_sprite.set_sprite_name(sprite_name)
         costume.set_costume_name(costume_name)
 

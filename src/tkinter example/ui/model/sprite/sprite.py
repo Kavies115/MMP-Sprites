@@ -6,6 +6,7 @@ import zipfile
 from asyncio.windows_events import NULL
 
 import cv2
+import numpy as np
 from PIL.Image import Image
 
 
@@ -61,7 +62,6 @@ class Sprite:
         self._sprite_name = name[:25]
 
     '''Exports the sprite and costumes into a .sprite3 format'''
-
     def export(self, path):
 
         tempPath = path
@@ -82,9 +82,9 @@ class Sprite:
             item = {
                 "name": i._costume_name,
                 "bitmapResolution": 2,
-                "dataFormat": "jpg",
+                "dataFormat": "png",
                 "assetId": i.get_costume_assetId(),
-                "md5ext": i.get_costume_assetId() + ".jpg",
+                "md5ext": i.get_costume_assetId() + ".png",
                 "rotationCenterX": i.image.shape[1] / 2,
                 "rotationCentery": i.image.shape[0] / 2,
 
@@ -135,8 +135,8 @@ class Sprite:
     def _save_images(self, path):
 
         for i in self._list_costumes:
-            new_path = path + "/" + i.get_costume_assetId() + ".jpg"
-            cv2.imwrite(new_path, i.image)
+            new_path = path + "/" + i.get_costume_assetId() + ".png"
+            cv2.imwrite(new_path, i.image_with_transparent_background())
 
     '''Compress the folder directory as a ZIP and rename to end with .sprite3'''
 
