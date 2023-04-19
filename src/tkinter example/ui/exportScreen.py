@@ -22,15 +22,12 @@ class ExportScreen(ctk.CTkFrame):
         # Frame for The list of pictures
         frame_for_picture_list = ctk.CTkScrollableFrame(self, width=350)
         frame_for_picture_list.grid(row=0, column=0, rowspan=1, sticky="nsew", padx=20, pady=20)
-        
+
         frame_for_editor = ctk.CTkFrame(self)
         frame_for_editor.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
 
         frame_for_export = ctk.CTkFrame(self)
         frame_for_export.grid(row=1, column=1, sticky="nsew", padx=20, pady=20)
-
-        label = ctk.CTkLabel(master=frame_for_picture_list, text="Costumes", font=("Cooper Black", 40))
-        label.pack(side="top", padx=60, pady=12)
 
         self.grid_rowconfigure(0, weight=2)
         self.grid_columnconfigure(1, weight=1)
@@ -44,11 +41,15 @@ class ExportScreen(ctk.CTkFrame):
         button_back.pack(padx=8, pady=8, side=ctk.LEFT, anchor="w", fill=ctk.BOTH)
 
         # Pressing refreshes the picture list
-        button_refresh = ctk.CTkButton(master=self, text="Refresh", font=("Cooper Black", 46),
+        button_refresh = ctk.CTkButton(master=self, text="Refresh\nCostumes", font=("Cooper Black", 46),
                                        command=lambda: self._list_of_images(frame_for_picture_list, frame_for_editor))
         button_refresh.grid(row=1, column=0, sticky="nsew", padx=20, pady=20)
 
         self._list_of_images(frame_for_picture_list, frame_for_editor)
+
+        ctk.CTkLabel(master=frame_for_editor, text="Press \"Refresh Costumes\" to view all costumes \nClick a costume "
+                                                   "for more options",
+                     font=("Cooper Black", 30)).place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
 
     '''Contents of the editor frame'''
     def _costume_editor_frame(self, frame, costume):
