@@ -100,8 +100,12 @@ class ExportScreen(ctk.CTkFrame):
 
     '''Deletes the costume'''
     def _editor_delete(self, costume):
-        main_sprite.remove_costume(costume)
-        self.export_page_content()
+
+        if tkinter.messagebox.askyesno(title="Delete?",
+                                        message="Are you sure you want to delete this costume theres no way to recover the image after this"):
+
+            main_sprite.remove_costume(costume)
+            self.export_page_content()
 
     '''Exports the Sprite'''
     def _export_sprite(self):
@@ -110,6 +114,9 @@ class ExportScreen(ctk.CTkFrame):
         if path == "":
             return
         main_sprite.export(path)
+
+        tkinter.messagebox.showinfo(title="Export",
+                                     message="Export was successful")
 
     '''Displays the list of images'''
     def _list_of_images(self, frame, export_frame):
