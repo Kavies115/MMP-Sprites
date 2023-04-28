@@ -95,6 +95,11 @@ class ExportScreen(ctk.CTkFrame):
                                         message="Please remove \"/\" from the Sprite name")
             return
 
+        if sprite_name == "":
+            tkinter.messagebox.showerror(title="Error",
+                                        message="Sprite name cant be nothing")
+            return
+
         main_sprite.set_sprite_name(sprite_name)
         costume.set_costume_name(costume_name)
 
