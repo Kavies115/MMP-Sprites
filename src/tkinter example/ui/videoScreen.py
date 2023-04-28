@@ -76,7 +76,7 @@ class VideoScreen(ctk.CTkFrame):
 
 
         # Starts Camera
-        self.show_frames()
+        self.camera_update()
         # Updates costume list
         self._update()
 
@@ -89,7 +89,7 @@ class VideoScreen(ctk.CTkFrame):
     '''Gets webcam feed and keeps it updated'''
 
     # https://www.tutorialspoint.com/how-to-show-webcam-in-tkinter-window taken from here
-    def show_frames(self):
+    def camera_update(self):
         # Capture the video frame by frame
         _, frame = self.cap.read()
 
@@ -109,7 +109,7 @@ class VideoScreen(ctk.CTkFrame):
         webcam_feed.configure(image=photo_image)
 
         # Update every 50 ms
-        webcam_feed.after(50, self.show_frames)
+        webcam_feed.after(50, self.camera_update)
 
     '''Takes photo from the camera feed'''
 

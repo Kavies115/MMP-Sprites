@@ -33,6 +33,7 @@ class SpriteTest(unittest.TestCase):
     #     list = [costume1, costume3]
     #
     #     self.assertEqual(list, sprite_tmp.get_list_costumes())
+
     def test_add_costumes_to_sprite_list(self):
         img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
         img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
@@ -182,4 +183,5 @@ class SpriteTest(unittest.TestCase):
 
         # If it cant find a match should return False
         self.assertEqual(sprite.get_sprite_name(), "Sprite")
+
 

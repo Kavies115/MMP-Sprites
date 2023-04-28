@@ -98,6 +98,9 @@ class ExportScreen(ctk.CTkFrame):
         main_sprite.set_sprite_name(sprite_name)
         costume.set_costume_name(costume_name)
 
+        tkinter.messagebox.showinfo(title="Save",
+                                    message="Saved costume")
+
     '''Deletes the costume'''
     def _editor_delete(self, costume):
 
