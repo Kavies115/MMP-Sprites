@@ -57,7 +57,6 @@ class SpriteTest(unittest.TestCase):
         self.assertEqual(sprite.get_list_costumes(), list)
         sprite.clear_costumes()
 
-
     def test_add_costumes_to_sprite_list_add(self):
         img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
         img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
@@ -80,6 +79,113 @@ class SpriteTest(unittest.TestCase):
         list = [costume1, costume2, costume3]
 
         sprite.add_costume(costume3)
+
+        self.assertEqual(sprite.get_list_costumes(), list)
+
+    def test_remove_one_costumes_to_sprite_list_add(self):
+        img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
+        img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
+        img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
+
+        costume1 = Costume(img1)
+        costume1.set_costume_name("costume 1")
+
+        costume2 = Costume(img2)
+        costume2.set_costume_name("costume 2")
+
+        costume3 = Costume(img3)
+        costume3.set_costume_name("costume 3")
+
+        sprite = Sprite()
+
+        sprite.add_costume(costume1)
+        sprite.add_costume(costume2)
+        sprite.add_costume(costume3)
+
+        list = [costume1, costume3]
+
+        sprite.remove_costume(costume2)
+
+
+        self.assertEqual(sprite.get_list_costumes(), list)
+
+    def test_remove_all_costumes_to_sprite_list_add(self):
+        img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
+        img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
+        img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
+
+        costume1 = Costume(img1)
+        costume1.set_costume_name("costume 1")
+
+        costume2 = Costume(img2)
+        costume2.set_costume_name("costume 2")
+
+        costume3 = Costume(img3)
+        costume3.set_costume_name("costume 3")
+
+        sprite = Sprite()
+
+        sprite.add_costume(costume1)
+        sprite.add_costume(costume2)
+        sprite.add_costume(costume3)
+
+        list = []
+
+        sprite.remove_costume(costume1)
+        sprite.remove_costume(costume2)
+        sprite.remove_costume(costume3)
+
+        self.assertEqual(sprite.get_list_costumes(), list)
+
+    def test_remove_and_add_costumes_to_sprite_list_add(self):
+        img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
+        img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
+        img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
+
+        costume1 = Costume(img1)
+        costume1.set_costume_name("costume 1")
+
+        costume2 = Costume(img2)
+        costume2.set_costume_name("costume 2")
+
+        costume3 = Costume(img3)
+        costume3.set_costume_name("costume 3")
+
+        sprite = Sprite()
+
+        sprite.add_costume(costume1)
+        sprite.add_costume(costume2)
+
+        list = [costume2, costume3]
+
+        sprite.remove_costume(costume1)
+
+        sprite.add_costume(costume3)
+
+        self.assertEqual(sprite.get_list_costumes(), list)
+
+    def test_remove_costumes_not_in_to_sprite_list_add(self):
+        img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
+        img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
+        img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
+
+        costume1 = Costume(img1)
+        costume1.set_costume_name("costume 1")
+
+        costume2 = Costume(img2)
+        costume2.set_costume_name("costume 2")
+
+        costume3 = Costume(img3)
+        costume3.set_costume_name("costume 3")
+
+        sprite = Sprite()
+
+        sprite.add_costume(costume1)
+        sprite.add_costume(costume2)
+
+        list = [costume1, costume2]
+
+        sprite.remove_costume(costume3)
 
         self.assertEqual(sprite.get_list_costumes(), list)
 
@@ -109,7 +215,7 @@ class SpriteTest(unittest.TestCase):
 
         self.assertEqual(sprite.get_list_costumes(), list)
 
-    def test_find_costumes_to_sprite_list_TT(self):
+    def test_find_costumes_to_sprite_list_In_list(self):
         img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
         img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
         img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
@@ -129,10 +235,10 @@ class SpriteTest(unittest.TestCase):
         sprite.add_costume(costume2)
         sprite.add_costume(costume3)
 
-        #Should be at index 1
+        # Should be at index 1
         self.assertEqual(sprite.find_costume(costume2), 1)
 
-    def test_find_costumes_to_sprite_list_TT(self):
+    def test_find_costumes_to_sprite_list_No_in_list(self):
         img1 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter1.png")
         img2 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter2.png")
         img3 = cv2.imread("C:\\Users\\Kavie\\Desktop\\testting\\walter3.png")
@@ -183,5 +289,3 @@ class SpriteTest(unittest.TestCase):
 
         # If it cant find a match should return False
         self.assertEqual(sprite.get_sprite_name(), "Sprite")
-
-

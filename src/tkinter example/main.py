@@ -1,11 +1,10 @@
-import tkinter
+
 
 from ui.exportScreen import ExportScreen
 from ui.videoScreen import VideoScreen
 from ui.startScreen import StartScreen
 
-import customtkinter as ctk  # python 3
-from tkinter import font as tkfont  # python 3
+import customtkinter as ctk
 
 
 class SpriteApp(ctk.CTk):

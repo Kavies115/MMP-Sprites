@@ -121,6 +121,12 @@ class ExportScreen(ctk.CTkFrame):
         #if user cancels just return
         if path == "":
             return
+
+        if not main_sprite.get_list_costumes():
+            tkinter.messagebox.showerror(title="Export",
+                                        message="Cant export project. There are no Costumes")
+            return
+
         main_sprite.export(path)
 
         tkinter.messagebox.showinfo(title="Export",

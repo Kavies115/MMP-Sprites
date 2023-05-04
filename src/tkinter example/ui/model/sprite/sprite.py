@@ -1,13 +1,9 @@
-import glob
 import json
 import os
 import shutil
 import zipfile
-from asyncio.windows_events import NULL
 
 import cv2
-import numpy as np
-from PIL.Image import Image
 
 
 class Sprite:
@@ -22,6 +18,9 @@ class Sprite:
     '''Removes costume from the list of costumes'''
 
     def remove_costume(self, costume):
+        if not self.find_costume(costume):
+            return
+
         self._list_costumes.remove(costume)
 
     '''Clears the costumes in the list'''

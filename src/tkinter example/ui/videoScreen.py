@@ -26,7 +26,7 @@ class VideoScreen(ctk.CTkFrame):
 
     def _video_screen_content(self, controller):
 
-        # CLears all widgets in the frame if we need to rebuild the screen
+        # Clears all widgets in the frame if we need to rebuild the screen
         for widgets in self.winfo_children():
             widgets.destroy()
 
@@ -55,7 +55,7 @@ class VideoScreen(ctk.CTkFrame):
 
         button_export_screen.pack(padx=8, pady=8)
 
-        # Back button (Dont know if i want to keep it yet)
+        # Back button (Old code)
 
         # button_home_screen = tk.CTkButton(frame_for_menubar, text="Back", font=("Berlin Sans FB", 56),
         #                                   command=lambda: controller.show_frame("StartPage"), height=100,
@@ -138,14 +138,13 @@ class VideoScreen(ctk.CTkFrame):
         # Adds to the costume list
         self._add_costume_to_list(frame, costume)
 
-    '''Adds costume to the list of costumes'''
-
-    def countdown(self):
-        t = 3
-
-        while t:
-            time.sleep(1)
-            t -= 1
+    # '''Adds costume to the list of costumes'''
+    # def countdown(self):
+    #     t = 3
+    #
+    #     while t:
+    #         time.sleep(1)
+    #         t -= 1
 
     def _add_costume_to_list(self, frame, costume):
         image = costume.image_cv2_to_tkinter(50)
